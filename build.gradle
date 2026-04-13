@@ -1,22 +1,69 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.3.10'
+    id 'org.jetbrains.kotlin.jvm' version '2.3.0'
+    id 'io.qameta.allure' version '3.0.0'
+    id 'java'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+group 'org.example.kotlin'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-}
-
-kotlin {
-    jvmToolchain(17)
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
 }
 
 test {
-    useJUnitPlatform()
+    // jvmArgs = [ "-javaagent:${configurations.agent.singleFile}", "-noverify" ]
+    useJUnitPlatform {
+        def tagsProp = System.getProperty('TAGS')
+        if (tagsProp) {
+            def tags = tagsProp.split(',').collect { it.trim() }.findAll { it }
+            includeTags(tags as String[])
+        }
+    }
+    dependsOn 'cleanTest'
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+    systemProperties(System.getProperties())
+}
+
+def allureVersion = '2.33.0',
+    junitVersion = '5.10.3',
+    platformVersion = '1.10.3',
+    selenideVersion = '7.14.0',
+    retrofit2Version = '3.0.0'
+
+allure {
+    version = allureVersion
+}
+
+dependencies {
+    agent 'org.aspectj:aspectjweaver:1.9.22'
+    implementation 'org.aspectj:aspectjweaver:1.9.22'
+
+    implementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    implementation "org.junit.platform:junit-platform-launcher:$platformVersion"
+
+    implementation 'io.kotest:kotest-assertions-core:6.1.1'
+
+    implementation "com.codeborne:selenide:$selenideVersion"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+    implementation 'com.google.code.gson:gson:2.13.2'
+
+    implementation "io.qameta.allure:allure-okhttp3:$allureVersion"
+    implementation "io.qameta.allure:allure-junit5:$allureVersion"
+    implementation "io.qameta.allure:allure-selenide:$allureVersion"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '17'
 }
