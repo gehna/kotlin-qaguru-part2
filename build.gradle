@@ -40,10 +40,6 @@ def allureVersion = '2.33.0',
     selenideVersion = '7.14.0',
     retrofit2Version = '3.0.0'
 
-allure {
-    version = allureVersion
-}
-
 dependencies {
     agent 'org.aspectj:aspectjweaver:1.9.22'
     implementation 'org.aspectj:aspectjweaver:1.9.22'
@@ -64,6 +60,3 @@ dependencies {
     implementation "io.qameta.allure:allure-selenide:$allureVersion"
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = '17'
-}
