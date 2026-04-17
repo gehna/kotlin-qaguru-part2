@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Selenide
+import com.codeborne.selenide.Selenide.sleep
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.qameta.allure.TmsLink
@@ -31,5 +32,21 @@ class FirstUiTest : BaseUiTest() {
             .getProducts()
 
         products.shouldHaveSize(6)
+    }
+
+    @Test
+    fun testOpenGoogle(){
+        Selenide.open("https://www.google.com/")
+        val title = Selenide.title()
+        sleep(10_000)
+        title shouldBe "Google"
+    }
+
+    @Test
+    fun testOpenCosmos(){
+        Selenide.open("https://www.cosmos-game.ru/")
+        val title = Selenide.title()
+        sleep(10_000)
+        title shouldBe "Cosmos"
     }
 }
