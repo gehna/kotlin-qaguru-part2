@@ -26,4 +26,9 @@ class MainPage {
         return HeaderComponent()
     }
 
+    @Step("Перейти к компоненту Header")
+    fun navigateHeader(): HeaderComponent {
+        return HeaderComponent()
+    }
+
 }
