@@ -12,7 +12,8 @@ import org.example.frontend.helpers.Wrappers.Companion.byDataTestId
 data class ProductData(
     val name: String,
     val description: String,
-    val price: String
+    val price: String,
+    val quantity: String
 )
 
 class ProductsPage {
@@ -24,6 +25,8 @@ class ProductsPage {
     fun productName(card: SelenideElement) = card.find(byDataTestGroup("product-card-name"))
     fun itemsDescription(card: SelenideElement) = card.find(byDataTestGroup("product-card-description"))
     fun itemsPrice(card: SelenideElement) = card.find(byDataTestGroup("product-card-price"))
+    fun itemsQuantity(card: SelenideElement) = card.find(byDataTestGroup("product-card-qty"))
+
 
     @Step("Получить название страницы продуктов")
     fun getTitle(): String {
@@ -49,7 +52,8 @@ class ProductsPage {
             ProductData(
                 name = productName(card).text,
                 description = itemsDescription(card).text,
-                price = itemsPrice(card).text
+                price = itemsPrice(card).text,
+                quantity = itemsQuantity(card).text
             )
         }
     }

@@ -14,7 +14,7 @@ class HeaderComponent {
 
     @Step("Нажать на ссылку в шапке: {name}")
     fun clickLink(name: String): HeaderComponent {
-        linksHeader.first { it.text == name }.click()
+        linksHeader.first {  it.text().contains(name) }.click()
         return this
     }
 

@@ -39,8 +39,8 @@ class ParamCoffeeTest : BaseUiTest() {
         """Juice, A wonderful juice for your daily brew., $3.75"""
     )
     @DisplayName("Проверить текст всех продуктов")
-    fun checkAllProductsText(product: String, description: String, price: String) {
+    fun checkAllProductsText(product: String, description: String, price: String, quantity: String) {
         val products = ProductsPage().getProductsInfo()
-        products shouldContain ProductData(product, description, price)
+        products shouldContain ProductData(product, description, price, quantity)
     }
 }

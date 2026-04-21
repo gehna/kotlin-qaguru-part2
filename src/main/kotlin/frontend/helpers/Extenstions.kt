@@ -10,5 +10,11 @@ class Extenstions {
             this.shouldBe(visible)
             return this.isDisplayed
         }
+
+        fun String.toMoney(): Double {
+            val normalized = replace(",", ".")
+                .replace(Regex("[^\\d.]"), "")
+            return normalized.toDouble()
+        }
     }
 }
