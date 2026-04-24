@@ -12,9 +12,8 @@ class Extenstions {
         }
 
         fun String.toMoney(): Double {
-            val normalized = replace(",", ".")
-                .replace(Regex("[^\\d.]"), "")
-            return normalized.toDouble()
+            val digitsOnly = filter { it.isDigit() }
+            return digitsOnly.toDouble() / 100.0
         }
     }
 }

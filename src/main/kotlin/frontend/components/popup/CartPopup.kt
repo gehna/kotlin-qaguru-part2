@@ -5,6 +5,7 @@ import CartItems
 import com.codeborne.selenide.Selenide.element
 import com.codeborne.selenide.Selenide.elements
 import io.qameta.allure.Step
+import org.example.frontend.helpers.Extenstions.Companion.toMoney
 import org.example.frontend.helpers.Wrappers.Companion.byDataTestGroup
 import org.example.frontend.helpers.Wrappers.Companion.byDataTestId
 
@@ -29,7 +30,8 @@ class CartPopup {
     }
 
     @Step("Get cart total price")
-    fun getTotalPrice(): Float {
-        return cartPopupTotalSum.text.filter {it.isDigit()}.toFloat() / 100f
+    fun getTotalPrice(): Double {
+        return cartPopupTotalSum.text.toMoney()
     }
+
 }

@@ -1,10 +1,13 @@
 package frontend
 
 
+import frontend.components.list.ProductItem
 import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.equality.shouldBeEqualToDifferentTypeIgnoringFields
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import org.example.frontend.helpers.BaseUiTest
+import org.example.frontend.helpers.Extenstions.Companion.toMoney
 import org.example.frontend.pages.MainPage
 import org.example.frontend.pages.ProductsPage
 import org.junit.jupiter.api.DisplayName
@@ -28,7 +31,7 @@ class ProductsTest : BaseUiTest() {
     @DisplayName("Проверка что популярные продукты, есть на странице Products")
     fun testPopularProducts() {
         MainPage()
-            .getPopularProducts()[1]
+            .getPopularProducts().first()
             .btnIncrement
             .click()
 
@@ -36,13 +39,15 @@ class ProductsTest : BaseUiTest() {
             .header()
             .clickLink("Products")
 
-        val secondProductsItem = ProductsPage()
-            .getProductsInfo()[1]
+        val firstProductsItem = ProductsPage()
+            .getProductsInfo().first()
 
-        val secondPopularProduct = MainPage().getPopularProducts()[1]
+        val firstPopularProduct = MainPage().getPopularProducts().first()
 
-        secondPopularProduct shouldBeEqual secondProductsItem
-        secondPopularProduct.quantity shouldBeEqual secondProductsItem.quantity
+        firstPopularProduct.name shouldBe firstProductsItem.name
+        firstPopularProduct.description shouldBe firstProductsItem.description
+        firstPopularProduct.price shouldBe firstProductsItem.price.toMoney()
+        firstPopularProduct.quantity shouldBe firstProductsItem.quantity.toInt()
     }
 
     @Test
@@ -58,7 +63,7 @@ class ProductsTest : BaseUiTest() {
 
         val allProductsItems = ProductsPage()
             .getProductsInfo()
-            .map { Triple(it.name, it.price, it.description) }
+            .map { Triple(it.name, it.price.toMoney(), it.description) }
 
         allProductsItems shouldContainAll popularProducts
 
