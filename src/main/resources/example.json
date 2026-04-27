@@ -1,0 +1,7 @@
+{
+  "browserName": "edge",
+  "browserVersion": "141.0",
+  "frontendUrl": "http://localhost:4000",
+  "backendUrl": "http://localhost:1111/api/v1/",
+  "selenoidUrl": "https://selenoid.autotests.cloud/"
+}
