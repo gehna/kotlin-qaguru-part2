@@ -1,7 +1,7 @@
 package general
 
-import tools.jackson.module.kotlin.jacksonObjectMapper
-import tools.jackson.module.kotlin.readValue
+import com.google.gson.Gson
+import java.io.InputStreamReader
 
 object PropertiesJson {
 
@@ -11,12 +11,12 @@ object PropertiesJson {
         val fileName = System.getProperty("env_config", DEFAULT_CONFIG_FILE)
 
         val stream = PropertiesJson::class.java.getResourceAsStream(fileName)
-            ?: throw IllegalStateException("Config file not found")
+            ?: throw IllegalStateException("Config file not found: $fileName")
 
-        val mapper = jacksonObjectMapper()
-
-        stream.use {
-            mapper.readValue<PropsModel>(it)
+        stream.use { input ->
+            InputStreamReader(input).use { reader ->
+                Gson().fromJson(reader, PropsModel::class.java)
+            }
         }
     }
 }
