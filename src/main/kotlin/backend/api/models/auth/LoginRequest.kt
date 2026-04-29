@@ -4,3 +4,8 @@ data class LoginRequest(
     var email: String,
     var password: String
 )
+
+val defaultAdmin = LoginRequest(
+    email = "admin",
+    password = "admin"
+)
