@@ -1,10 +1,12 @@
 package org.example.backend.controllers
 
 import io.qameta.allure.Step
+import okhttp3.ResponseBody
 import org.example.backend.api.endpoints.Endpoints
 import org.example.backend.api.extention.Extensions.Companion.getAsObject
 import org.example.backend.api.models.users.createUser.CreateUserRequest
 import org.example.backend.api.models.users.createUser.CreateUserResponse
+import org.example.backend.api.models.users.updateUser.UpdateRequest
 import org.example.backend.helpers.AuthorizationHelper
 import org.example.backend.helpers.GarbageCollector
 import retrofit2.Response
@@ -29,13 +31,13 @@ class UsersController: Endpoints() {
         return users.getUserById(token, id).execute()
     }
 
-//    @Step("Update users with ID: {id}")
-//    fun updateUserById(token: String = authHelper.getAdminToken(), id: Int, body: UpdateRequest): Response<CreateUserResponse> {
-//        return users.putUserById(token, id, body).execute()
-//    }
+    @Step("Update users with ID: {id}")
+    fun updateUserById(token: String = authHelper.getAdminToken(), id: Int, body: UpdateRequest): Response<CreateUserResponse> {
+        return users.putUserById(token, id, body).execute()
+    }
 
-//    @Step("Delete user with ID: {id}")
-//    fun deleteUserById(token: String = authHelper.getAdminToken(), id: Int): Response<ResponseBody> {
-//        return users.deleteUserById(token, id).execute()
-//    }
+    @Step("Delete user with ID: {id}")
+    fun deleteUserById(token: String = authHelper.getAdminToken(), id: Int): Response<ResponseBody> {
+        return users.deleteUserById(token, id).execute()
+    }
 }

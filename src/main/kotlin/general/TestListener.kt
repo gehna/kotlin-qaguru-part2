@@ -1,15 +1,20 @@
 package org.example.general
 
+import backend.controllers.Controllers
 import com.codeborne.selenide.Screenshots
 import com.codeborne.selenide.Selenide
 import io.qameta.allure.Attachment
+import org.example.backend.helpers.AuthorizationHelper
+import org.example.backend.helpers.GarbageCollector
 import org.example.kotlin.general.Config
 import org.junit.platform.engine.TestExecutionResult
 import org.junit.platform.launcher.TestExecutionListener
 import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.TestPlan
 
-class TestListener : TestExecutionListener {
+class TestListener : Controllers(), TestExecutionListener {
+    private val authHelper = AuthorizationHelper()
+
     override fun testPlanExecutionStarted(testPlan: TestPlan) {
         println("|-----Test plan started. Total tests: ${testPlan.countTestIdentifiers { it.isTest }} ----|")
         println("Initializing Configurations...").also { Config.getProps }
@@ -27,8 +32,14 @@ class TestListener : TestExecutionListener {
     }
 
     override fun testPlanExecutionFinished(testPlan: TestPlan) {
-        Selenide.closeWebDriver()
         println("|-----Test plan finished-----|")
+        Selenide.closeWebDriver()
+
+        println("|------ Garbage collector -------|")
+        GarbageCollector.user.forEach { id ->
+            users.deleteUserById(token = authHelper.getAdminToken(), id = id)
+                .also {println("Deleted user: $id")}
+        }
     }
 
     override fun executionFinished(testIdentifier: TestIdentifier, testExecutionResult: TestExecutionResult) {
