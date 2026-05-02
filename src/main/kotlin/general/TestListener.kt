@@ -40,6 +40,12 @@ class TestListener : Controllers(), TestExecutionListener {
             users.deleteUserById(token = authHelper.getAdminToken(), id = id)
                 .also {println("Deleted user: $id")}
         }
+
+        /*        users.getAllUsers(token = authHelper.getAdminToken(), offset = 1, limit = 50).getAsObject().forEach { user ->
+            if (user.email.contains("@autotest.com")) {
+                users.deleteUserById(token = authHelper.getAdminToken(), id = user.id)
+                    .also {println("Deleted user: ${user.email}")}*/
+
     }
 
     override fun executionFinished(testIdentifier: TestIdentifier, testExecutionResult: TestExecutionResult) {
