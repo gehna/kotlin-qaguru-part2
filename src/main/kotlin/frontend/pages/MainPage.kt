@@ -7,7 +7,7 @@ import com.codeborne.selenide.Selenide.element
 import com.codeborne.selenide.Selenide.elements
 import com.codeborne.selenide.SelenideElement
 import frontend.components.list.ProductItem
-import frontend.components.list.ProductsItems
+import frontend.components.list.ProductCard
 import io.qameta.allure.Step
 import org.example.frontend.components.HeaderComponent
 import org.example.frontend.helpers.Wrappers.Companion.byDataTestGroup
@@ -40,7 +40,7 @@ class MainPage {
     @Step("Получить список популярных товаров")
     fun getPopularProducts(): List<ProductItem> {
         listPopularProducts.shouldHave(sizeGreaterThan(0))
-        return ProductsItems(listPopularProducts).getItems()
+        return ProductCard(listPopularProducts).getItems()
     }
 
 }

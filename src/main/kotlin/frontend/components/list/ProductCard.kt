@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement
 import org.example.frontend.helpers.Extenstions.Companion.toMoney
 import org.example.frontend.helpers.Wrappers.Companion.byDataTestGroup
 
-class ProductsItems(val items: ElementsCollection) {
+class ProductCard(val items: ElementsCollection) {
 
     fun getItems(): List<ProductItem> {
         return items

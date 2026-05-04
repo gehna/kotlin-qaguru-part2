@@ -1,11 +1,8 @@
 package frontend
 
-
-import frontend.components.list.ProductItem
 import io.kotest.matchers.collections.shouldContainAll
-import io.kotest.matchers.equality.shouldBeEqualToDifferentTypeIgnoringFields
-import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
+import org.example.backend.helpers.ProductHelper
 import org.example.frontend.helpers.BaseUiTest
 import org.example.frontend.helpers.Extenstions.Companion.toMoney
 import org.example.frontend.pages.MainPage
@@ -14,6 +11,24 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 class ProductsTest : BaseUiTest() {
+
+    val productsHelper = ProductHelper()
+
+    @Test
+    @DisplayName("Create and check products")
+    fun testFiveProductsExist() {
+
+        val listOfproducts = productsHelper.createCoffeeProduct(4)
+
+        val products = ProductsPage()
+            .open()
+            .getProductsInfo()
+
+        products.size shouldBe 4
+        products.forEachIndexed { index, product ->
+            product.name shouldBe listOfproducts[index].name
+        }
+    }
 
     @Test
     @DisplayName("Проверка заголовка страницы Products")
